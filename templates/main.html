@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
+    <title>Dashboard - {{user['given_name']}}</title>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+     <header>
+        <div class="logo">HDR Beauty</div>
+        <div class="nav-and-user">
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#service">Services</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#testimonial">Testimonials</a>
+                <a href="#booking">Booking</a>
+            </nav>
+            <div class="user">
+                <img src="{{user['picture']}}" class="profile-pic" id="profilePic">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+
+     </header>
+
+     <!-- Hero Section -->
+
+     <section class="hero" id="home">
+        <div class="hero-left">
+            <h1>Experience Luxury Beauty Care</h1>
+            <p>Professional skincare, hair styling, and makeup by certified experts.</p>
+            <button href="#booking" class="btn-primary">Book an Appointment</a>
+        </div>
+
+        <!-- Playing images in the right box -->
+
+        <div class="hero-right">
+
+            <img src="{{ url_for('static', path='/assests/img4.png') }}" alt="">
+
+        </div>
+     </section>
+
+
+     <!-- Services Section -->
+
+     <section class="service" id="service">
+
+        <h1>Services We Offer</h1>
+
+        <div class="service-container">
+
+            <div class="service-card">
+
+                <div class="service-image">
+                    <img src="{{ url_for('static', path='/assests/facial.jpeg') }}" alt="">
+                </div>
+
+                <div class="service-info">
+
+                    <h3>Facials</h3>
+                    <p>Deep cleansing, brightening & rejuvenation facials.</p>
+                    <span>₹999 onwards</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="service-card">
+                
+                <div class="service-image">
+                    <img src="{{ url_for('static', path='/assests/hairStyling.jpeg') }}" alt="">
+                </div>
+
+                <div class="service-info">
+                    <h3>Hair Styling</h3>
+                    <p>Designer haircuts, smoothening & keratin treatments.</p>
+                    <span>₹599 onwards</span>
+                </div>
+
+            </div>
+
+
+            <div class="service-card">
+                
+                <div class="service-image">
+
+                    <img src="{{ url_for('static', path='/assests/img1.png') }}" alt="" style="object-fit: contain;">
+
+                </div>
+
+                <div class="service-info">
+                    <h3>Makeup</h3>
+                    <p>Bridal, party & HD makeup by professional artists.</p>
+                    <span>₹2499 onwards</span>
+                </div>
+
+            </div>
+
+
+            <div class="service-card">
+                
+                <div class="service-image">
+                    <img src="{{ url_for('static', path='/assests/spa.jpeg') }}" alt="">
+                </div>
+
+                <div class="service-info">
+                    <h3>Spa & Nails</h3>
+                    <p>Relaxing spa, manicure, pedicure & nail art.</p>
+                    <span>₹699 onwards</span>
+                </div>
+
+            </div>
+
+        </div> 
+
+     </section>
+
+
+
+
+
+     <!-- Gallery Section -->
+
+     <section class="service" id="gallery">
+
+        <h1>HDR Gallery - Experience the Beautiful Change</h1>
+
+        <div class="service-container">
+
+            <img src="{{ url_for('static', path='/assests/g1.jpg') }}" alt="" style="margin: 15px;">
+            <img src="{{ url_for('static', path='/assests/g2.jpg') }}" alt="" style="margin: 15px;">
+            <img src="{{ url_for('static', path='/assests/g3.jpg') }}" alt="" style="margin: 15px;">
+            <img src="{{ url_for('static', path='/assests/g4.jpg') }}" alt="" style="margin: 15px;">
+            <img src="{{ url_for('static', path='/assests/g5.jpg') }}" alt="" style="margin: 15px;">
+
+        </div>
+
+     </section>
+
+     <!-- TESTIMONIALS -->
+    <section class="service" id="testimonial">
+        <h1>What Clients Say</h1>
+
+        <div class="testimonial-container">
+            <div class="testimonial">
+                <p>“Amazing service! The bridal makeup was flawless and long-lasting.”</p>
+                <h4>- Riya Sharma</h4>
+            </div>
+
+            <div class="testimonial">
+                <p>“Loved the ambience and professional approach. Hair spa was relaxing.”</p>
+                <h4>- Meena Kapoor</h4>
+            </div>
+
+            <div class="testimonial">
+                <p>“Best facials in town. My skin feels so fresh and glowing.”</p>
+                <h4>- Aishwarya Patil</h4>
+            </div>
+        </div>
+        
+    </section>
+
+
+
+
+    <!-- BOOKING -->
+    <section class="booking" id="booking">
+        <div class="booking-heading">
+            <h1>Bookings</h1>
+        </div>
+
+        <div class="booking-container">
+            <div class="new-booking">
+                <form class="booking-form" id="bookingForm">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" required>
+                    <select id="service" name="service" required>
+                        <option disabled selected>Select Service</option>
+                        <option>Facial</option>
+                        <option>Hair Styling</option>
+                        <option>Makeup</option>
+                        <option>Spa & Nails</option>
+                    </select>
+
+                    <input type="date" id="date" name="date" required>
+                    <textarea placeholder="Any special request?" rows="4"></textarea>
+
+                    <button type="submit" class="btn-primary">Confirm Booking</button>
+                </form>
+                <script>
+document.getElementById("bookingForm").addEventListener("submit", async function (e) {
+    e.preventDefault(); // prevent redirect
+
+    const formData = new FormData(this);
+
+    const res = await fetch("/booking/new", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.success == true) {
+        alert("Booking confirmed!");
+        document.getElementById("bookingForm").reset();
+        loadBookings();  // refresh list if needed
+    } else {
+        alert("Error: " + (data.error ?? "unknown"));
+    }
+});
+</script>
+
+            </div>
+        
+
+            <div class="booking-list" id="bookingList">
+                <div class="booking-list" id="bookingList">
+                    
+                    <!-- Single Booking Card (will be repeated dynamically) -->
+                    <!-- <div class="booking-card">
+                        <h3>Hair Spa</h3>
+                        <p><strong>Date:</strong> 12 Dec 2025</p>
+                        <p><strong>Time:</strong> 3:30 PM</p>
+                        <p><strong>Status:</strong> Confirmed</p>
+                    </div>
+
+                    <div class="booking-card">
+                        <h3>Hair Spa</h3>
+                        <p><strong>Date:</strong> 12 Dec 2025</p>
+                        <p><strong>Time:</strong> 3:30 PM</p>
+                        <p><strong>Status:</strong> Confirmed</p>
+                    </div>
+
+                    <div class="booking-card">
+                        <h3>Hair Spa</h3>
+                        <p><strong>Date:</strong> 12 Dec 2025</p>
+                        <p><strong>Time:</strong> 3:30 PM</p>
+                        <p><strong>Status:</strong> Confirmed</p>
+                    </div> -->
+
+                
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+    <!-- CONTACT -->
+    <section class="service">
+        <h2>Contact Us</h2>
+
+        <div class="contact-container">
+            <div>
+                <h3>HDR Beauty Studios</h3>
+                <p>📍 Muradnagar, Radheshyam Vihar, Ghaziabad</p>
+                <p>📞 +91 63932 03219</p>
+                <p>✉ hdrstudio@gmail.com</p>
+            </div>
+
+            <iframe 
+                src="https://maps.google.com/maps?q=delhi&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                width="100%" height="250" frameborder="0"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 HDR Beauty Studio. All Rights Reserved.</p>
+    </footer>
+
+
+    <script>
+async function loadBookings() {
+    let res = await fetch("/booking/all");
+    let bookings = await res.json();
+
+    let container = document.getElementById("bookingList");
+    container.innerHTML = "";
+
+    bookings.forEach(b => {
+        container.innerHTML += `
+            <div class="booking-card">
+                <h3>${b.service}</h3>
+                <p><strong>Date:</strong> ${b.date}</p>
+                <p><strong>Status:</strong> ${b.status}</p>
+            </div>
+        `;
+    });
+}
+loadBookings();
+</script>
+
+
+    
+</body>
+
+</html>
